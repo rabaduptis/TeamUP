@@ -1,3 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="login_with_google">Login with Google</string>
+    <string name="with_the_teamup_application_you_can_create_or_join_teams_in_this_way_you_can_complete_a_task_more_efficiently_by_dividing_it_into_tasks_among_team_members">With the TeamUP application, you can create or join teams. In this way, you can complete a task more efficiently by dividing it into tasks among team members!</string>
 </resources>
