@@ -6,6 +6,16 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            storeFile =
+                file("C:\\Users\\ilkay\\AndroidStudioProjects\\TeamUP\\app\\teamp-up-signing.jks")
+            storePassword = "356289741a"
+            keyAlias = "key0"
+            keyPassword = "356289741a"
+        }
+    }
+
     namespace = "com.root14.teamup"
     compileSdk = 34
 
@@ -17,6 +27,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionNameSuffix = "unstable"
     }
 
     viewBinding {
@@ -30,6 +41,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
