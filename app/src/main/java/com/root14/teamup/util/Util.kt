@@ -1,14 +1,10 @@
 package com.root14.teamup.util
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.root14.teamup.view.activity.MainActivity
 
 class Util {
     companion object {
@@ -21,6 +17,12 @@ class Util {
          * view's padding can then be set to match the insets to ensure that the view's content is not
          * obscured.
          *
+         * Example usage:
+         *
+         * ```
+         * Util.applyWindowInsets(binding.root, this)
+         *
+         * ```
          * @param view The view to set the listener on.
          */
         fun applyWindowInsets(view: View, componentActivity: ComponentActivity) {
@@ -31,6 +33,5 @@ class Util {
                 insets
             }
         }
-
     }
 }

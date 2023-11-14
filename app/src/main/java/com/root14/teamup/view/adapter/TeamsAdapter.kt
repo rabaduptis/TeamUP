@@ -1,5 +1,7 @@
 package com.root14.teamup.view.adapter
 
+import Navigator
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.root14.teamup.R
 import com.root14.teamup.model.TeamModel
+import com.root14.teamup.view.activity.TeamDetailActivity
 
 class TeamsAdapter(private val data: List<TeamModel>) :
     RecyclerView.Adapter<TeamsAdapter.TeamsViewHolder>() {
@@ -40,7 +43,14 @@ class TeamsAdapter(private val data: List<TeamModel>) :
         holder.teamDescription.text = team.teamDescription
 
         holder.teamBaseLayout.setOnClickListener {
-            Toast.makeText(it.context, "clicked $position", Toast.LENGTH_LONG).show()
+
+            val extras = Bundle()
+            extras.putString("team-extras", team.teamName)
+
+            Navigator<TeamDetailActivity>(it.context).navigateTo(
+                TeamDetailActivity::class.java,
+                extras
+            )
         }
     }
 

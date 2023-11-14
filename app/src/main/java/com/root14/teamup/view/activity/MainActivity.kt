@@ -21,9 +21,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         Util.applyWindowInsets(binding.root, this)
 
-        Navigator<TeamDetailActivity>(this).navigateTo(TeamDetailActivity::class.java)
-
-
         val listItems = mutableListOf<TeamModel>()
 
         for (i in 0..3) {
