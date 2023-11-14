@@ -1,13 +1,15 @@
-package com.root14.teamup
+package com.root14.teamup.view.activity
 
+import Navigator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.root14.teamup.databinding.ActivityLoginBinding
+import com.root14.teamup.util.Util
 import com.root14.teamup.databinding.ActivityMainBinding
 import com.root14.teamup.model.TeamModel
 import com.root14.teamup.view.adapter.TeamsAdapter
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,21 +19,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Util.applyWindowInsets(binding.root, this)
+
+        Navigator<TeamDetailActivity>(this).navigateTo(TeamDetailActivity::class.java)
 
 
         val listItems = mutableListOf<TeamModel>()
 
-        for (i in 1..4) {
-            listItems.add(TeamModel("team $i", "team description $i"))
+        for (i in 0..3) {
+            listItems.add(
+                TeamModel(
+                    "team default $i", "team default description ${Random.nextInt().toUInt()}"
+                )
+            )
         }
 
-
         val myManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-        val myAdaapter: RecyclerView.Adapter<*> = TeamsAdapter(listItems)
+        val myAdapter: RecyclerView.Adapter<*> = TeamsAdapter(listItems)
 
         binding.recyclerViewTeams.layoutManager = myManager;
-        binding.recyclerViewTeams.adapter = myAdaapter;
+        binding.recyclerViewTeams.adapter = myAdapter;
         binding.recyclerViewTeams.setHasFixedSize(true);
     }
-
 }

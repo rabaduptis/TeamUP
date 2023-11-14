@@ -4,16 +4,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.root14.teamup.R
 import com.root14.teamup.model.TeamModel
 
-class TeamsAdapter(val data: List<TeamModel>) :
+class TeamsAdapter(private val data: List<TeamModel>) :
     RecyclerView.Adapter<TeamsAdapter.TeamsViewHolder>() {
 
     inner class TeamsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val teamName: TextView = itemView.findViewById(R.id.textView_team_name)
         val teamDescription: TextView = itemView.findViewById(R.id.textView_team_description)
+        val teamBaseLayout: ConstraintLayout = itemView.findViewById(R.id.constraitLayout_team_base)
     }
 
     override fun onCreateViewHolder(
@@ -35,6 +38,10 @@ class TeamsAdapter(val data: List<TeamModel>) :
         val team = data[position]
         holder.teamName.text = team.teamName
         holder.teamDescription.text = team.teamDescription
+
+        holder.teamBaseLayout.setOnClickListener {
+            Toast.makeText(it.context, "clicked $position", Toast.LENGTH_LONG).show()
+        }
     }
 
 }
