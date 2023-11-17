@@ -9,6 +9,7 @@ import com.root14.teamup.util.Util
 import com.root14.teamup.databinding.ActivityMainBinding
 import com.root14.teamup.model.TeamModel
 import com.root14.teamup.view.adapter.TeamsAdapter
+import com.root14.teamup.view.fragment.TeamCreateDialogFragment
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -34,8 +35,15 @@ class MainActivity : AppCompatActivity() {
         val myManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         val myAdapter: RecyclerView.Adapter<*> = TeamsAdapter(listItems)
 
-        binding.recyclerViewTeams.layoutManager = myManager;
-        binding.recyclerViewTeams.adapter = myAdapter;
-        binding.recyclerViewTeams.setHasFixedSize(true);
+        binding.recyclerViewTeams.layoutManager = myManager
+        binding.recyclerViewTeams.adapter = myAdapter
+        binding.recyclerViewTeams.setHasFixedSize(true)
+
+
+        binding.floatingActionButtonTeamAdd.setOnClickListener {
+            val modelBottomSheet = TeamCreateDialogFragment()
+            modelBottomSheet.show(supportFragmentManager, "TeamCreateDialogFragment")
+
+        }
     }
 }

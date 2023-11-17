@@ -3,4 +3,7 @@
     <string name="login_with_google">Login with Google</string>
     <string name="with_the_teamup_application_you_can_create_or_join_teams_in_this_way_you_can_complete_a_task_more_efficiently_by_dividing_it_into_tasks_among_team_members">With the TeamUP application, you can create or join teams. In this way, you can complete a task more efficiently by dividing it into tasks among team members!</string>
     <string name="you_can_be_a_member_of_a_maximum_of_4_teams">You can be a member of a maximum of 4 teams.</string>
+    <string name="default_team_name">DEFAULT TEAM NAME</string>
+    <string name="default_team_description">DEFAULT TEAM DESCRIPTION</string>
+    <string name="create_team">Create Team</string>
 </resources>

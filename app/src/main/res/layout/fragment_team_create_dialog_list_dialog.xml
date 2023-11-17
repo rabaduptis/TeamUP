@@ -1,0 +1,41 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="?attr/bottomSheetDialogTheme"
+    tools:context=".view.activity.MainActivity">
+
+    <Button
+        android:id="@+id/button_create_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/create_team"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_team_description" />
+
+    <EditText
+        android:id="@+id/textView_team_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="@string/default_team_description"
+        app:layout_constraintEnd_toEndOf="@+id/textView_team_name"
+        app:layout_constraintStart_toStartOf="@+id/textView_team_name"
+        app:layout_constraintTop_toBottomOf="@+id/textView_team_name" />
+
+    <EditText
+        android:id="@+id/textView_team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:hint="@string/default_team_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

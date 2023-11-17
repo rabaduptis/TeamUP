@@ -30,7 +30,6 @@ import android.os.Bundle
  * ```
  */
 class Navigator<T>(private val context: Context) where T : Activity {
-
     /**
      * Navigates to the given activity class.
      *
