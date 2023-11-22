@@ -1,18 +1,13 @@
 package com.root14.teamup.view.activity
 
-import Navigator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.root14.teamup.data.PrefDataStoreManager
-import com.root14.teamup.data.dataStore
-import com.root14.teamup.util.Util
 import com.root14.teamup.databinding.ActivityMainBinding
 import com.root14.teamup.model.TeamModel
+import com.root14.teamup.util.Util
 import com.root14.teamup.view.adapter.TeamsAdapter
 import com.root14.teamup.view.fragment.TeamCreateDialogFragment
 import kotlinx.coroutines.GlobalScope
@@ -51,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         binding.floatingActionButtonTeamAdd.setOnClickListener {
             val modelBottomSheet = TeamCreateDialogFragment()
             modelBottomSheet.show(supportFragmentManager, "TeamCreateDialogFragment")
-
         }
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -63,18 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        GlobalScope.launch {
-            PrefDataStoreManager().saveSomeData(dataStore).collect() {
-                println("douglas save: $it")
-
-                PrefDataStoreManager().readSomeData(dataStore).collect {
-                    println("douglas read: $it")
-                }
-
-            }
-
-
-        }
+        PrefDataStoreManager().readStringData(data)
 
     }
 }
