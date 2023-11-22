@@ -10,11 +10,13 @@ import com.root14.teamup.model.TeamModel
 import com.root14.teamup.util.Util
 import com.root14.teamup.view.adapter.TeamsAdapter
 import com.root14.teamup.view.fragment.TeamCreateDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -56,8 +58,6 @@ class MainActivity : AppCompatActivity() {
                 binding.swipeRefresh.isRefreshing = false
             }
         }
-
-        PrefDataStoreManager().readStringData(data)
 
     }
 }

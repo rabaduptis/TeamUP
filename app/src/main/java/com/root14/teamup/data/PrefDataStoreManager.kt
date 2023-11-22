@@ -27,9 +27,9 @@ class PrefDataStoreManager private constructor(private val dataStore: DataStore<
          * @param application The application context to access the shared preferences.
          * @return The PrefDataStoreManager instance.
          */
-        fun getInstance(application: Application): PrefDataStoreManager {
+        fun getInstance(context: Context): PrefDataStoreManager {
             if (instance == null) {
-                instance = PrefDataStoreManager(application.applicationContext.dataStore)
+                instance = PrefDataStoreManager(context.dataStore)
             }
             return instance!!
         }
