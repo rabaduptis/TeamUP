@@ -5,11 +5,19 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.root14.teamup.data.PrefDataStoreManager
+import com.root14.teamup.data.dataStore
 import com.root14.teamup.util.Util
 import com.root14.teamup.databinding.ActivityMainBinding
 import com.root14.teamup.model.TeamModel
 import com.root14.teamup.view.adapter.TeamsAdapter
 import com.root14.teamup.view.fragment.TeamCreateDialogFragment
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -45,5 +53,28 @@ class MainActivity : AppCompatActivity() {
             modelBottomSheet.show(supportFragmentManager, "TeamCreateDialogFragment")
 
         }
+
+        binding.swipeRefresh.setOnRefreshListener {
+
+            println("look douglas! it is working!")
+            GlobalScope.launch {
+                delay(5000)
+                binding.swipeRefresh.isRefreshing = false
+            }
+        }
+
+        GlobalScope.launch {
+            PrefDataStoreManager().saveSomeData(dataStore).collect() {
+                println("douglas save: $it")
+
+                PrefDataStoreManager().readSomeData(dataStore).collect {
+                    println("douglas read: $it")
+                }
+
+            }
+
+
+        }
+
     }
 }

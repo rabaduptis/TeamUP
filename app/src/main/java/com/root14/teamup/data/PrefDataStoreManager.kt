@@ -1,0 +1,50 @@
+package com.root14.teamup.data;
+
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import kotlinx.coroutines.flow.map
+
+/**
+ * This class provides methods for saving and retrieving string data from the shared preferences.
+ */
+class PrefDataStoreManager {
+
+    /**
+     * Saves a string value to the shared preferences file.
+     *
+     * @param dataStore The DataStore object to use for saving the data.
+     * @param key The name of the preference to save the data to.
+     * @param data The string value to save.
+     * @return A boolean value indicating whether the save was successful.
+     */
+    suspend fun saveStringData(
+        dataStore: DataStore<Preferences>, key: String, data: String
+    ): Boolean {
+        return try {
+            // Edit the preferences and set the value of the specified key to the given data.
+            dataStore.edit { preferences ->
+                preferences[stringPreferencesKey(key)] = data
+            }
+            true
+        } catch (exception: Exception) {
+            // An error occurred while saving the data. Log the error and return false.
+            println(exception.stackTrace)
+            false
+        }
+    }
+
+    /**
+     * Reads a string value from the shared preferences file.
+     *
+     * @param dataStore The DataStore object to use for retrieving the data.
+     * @param key The name of the preference to retrieve the data from.
+     * @return A Flow object that emits the value of the preference whenever it changes.
+     */
+    fun readStringData(dataStore: DataStore<Preferences>, key: String) =
+        dataStore.data.map { preferences ->
+            // Get the value of the specified key from the preferences.
+            preferences[stringPreferencesKey(key)]
+        }
+}

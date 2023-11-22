@@ -12,6 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TeamUP"
         tools:targetApi="31">
+        <service
+            android:name="com.root14.FcmService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".view.activity.TeamDetailActivity"
             android:exported="false" />
