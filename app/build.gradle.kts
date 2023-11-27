@@ -102,7 +102,10 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation (libs.androidx.fragment.ktx)
 }
 
 kapt {

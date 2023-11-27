@@ -6,4 +6,5 @@
     <string name="default_team_name">DEFAULT TEAM NAME</string>
     <string name="default_team_description">DEFAULT TEAM DESCRIPTION</string>
     <string name="create_team">Create Team</string>
+    <string name="there_is_no_team_to_view">There is no team to view!</string>
 </resources>

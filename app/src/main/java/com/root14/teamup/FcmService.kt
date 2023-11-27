@@ -1,4 +1,4 @@
-package com.root14
+package com.root14.teamup
 
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService

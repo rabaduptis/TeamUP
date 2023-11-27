@@ -1,6 +1,5 @@
 package com.root14.teamup.data;
 
-import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -33,6 +32,15 @@ class PrefDataStoreManager private constructor(private val dataStore: DataStore<
             }
             return instance!!
         }
+    }
+
+    /**
+     * Returns a map of all data in the shared preferences file.
+     *
+     * @return A map of all data in the shared preferences file.
+     */
+    fun getAllData() = dataStore.data.map { preferences ->
+        preferences.asMap()
     }
 
     /**
