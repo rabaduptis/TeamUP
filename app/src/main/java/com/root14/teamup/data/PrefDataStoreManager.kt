@@ -35,6 +35,7 @@ class PrefDataStoreManager private constructor(private val dataStore: DataStore<
         }
     }
 
+
     /**
      * Saves a string value to the shared preferences file.
      *
@@ -68,3 +69,4 @@ class PrefDataStoreManager private constructor(private val dataStore: DataStore<
             preferences[stringPreferencesKey(key)]
         }
 }
+

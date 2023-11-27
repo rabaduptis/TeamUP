@@ -3,6 +3,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.root14.teamup.data.PrefDataStoreManager
+import com.root14.teamup.model.PrefDataTags
 import com.root14.teamup.model.state.CreateTeamUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,12 +19,16 @@ class CreateTeamViewModel @Inject constructor(private val prefDataStoreManager: 
 
     /**
      * The UI state of the team creation process.
+     * Saves the team name and description in the data store with "Team" tag.
+     * It's a inside operation that this fun is doing for using one PrefDataStore.
      */
 
     fun createTeam(teamName: String, teamDescription: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                prefDataStoreManager.saveStringData(teamName, teamDescription)
+                prefDataStoreManager.saveStringData(
+                    "${PrefDataTags.TEAM} $teamName", teamDescription
+                )
                 // Update the UI state with a success message.
                 _createTeamUiState.postValue(CreateTeamUiState(isError = false))
             } catch (exception: Exception) {

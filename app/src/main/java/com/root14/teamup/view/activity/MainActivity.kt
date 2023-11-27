@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.root14.teamup.data.PrefDataStoreManager
 import com.root14.teamup.databinding.ActivityMainBinding
 import com.root14.teamup.model.TeamModel
@@ -49,6 +51,8 @@ class MainActivity : AppCompatActivity() {
             val modelBottomSheet = TeamCreateDialogFragment()
             modelBottomSheet.show(supportFragmentManager, "TeamCreateDialogFragment")
         }
+
+        println("bla")
 
         binding.swipeRefresh.setOnRefreshListener {
 
