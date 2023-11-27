@@ -13,6 +13,7 @@ import com.root14.teamup.util.Util
 import com.root14.teamup.view.adapter.TeamsAdapter
 import com.root14.teamup.view.fragment.TeamCreateDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -52,7 +53,19 @@ class MainActivity : AppCompatActivity() {
             modelBottomSheet.show(supportFragmentManager, "TeamCreateDialogFragment")
         }
 
-        println("bla")
+        GlobalScope.launch(Dispatchers.IO) {
+            PrefDataStoreManager.getInstance(this@MainActivity)
+                .saveStringData("SampleKey", "SampleData")
+
+            var dummy =
+                PrefDataStoreManager.getInstance(this@MainActivity).readStringData("SampleKey")
+
+
+            dummy.collect {
+                println("douglas: $it")
+            }
+        }
+
 
         binding.swipeRefresh.setOnRefreshListener {
 

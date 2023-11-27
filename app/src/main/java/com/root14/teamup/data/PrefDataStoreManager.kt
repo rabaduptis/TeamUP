@@ -35,6 +35,25 @@ class PrefDataStoreManager private constructor(private val dataStore: DataStore<
         }
     }
 
+    /**
+     * Deletes a key-value pair from the shared preferences file.
+     *
+     * @param key The name of the preference to delete.
+     */
+    suspend fun deleteData(key: String) {
+        dataStore.edit { preferences ->
+            preferences.remove(stringPreferencesKey(key))
+        }
+    }
+
+    /**
+     * Deletes all data from the shared preferences file.
+     */
+    suspend fun deleteAllData() {
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
 
     /**
      * Saves a string value to the shared preferences file.
@@ -63,10 +82,9 @@ class PrefDataStoreManager private constructor(private val dataStore: DataStore<
      * @param key The name of the preference to retrieve the data from.
      * @return A Flow object that emits the value of the preference whenever it changes.
      */
-    fun readStringData(key: String) =
-        dataStore.data.map { preferences ->
-            // Get the value of the specified key from the preferences.
-            preferences[stringPreferencesKey(key)]
-        }
+    fun readStringData(key: String) = dataStore.data.map { preferences ->
+        // Get the value of the specified key from the preferences.
+        preferences[stringPreferencesKey(key)]
+    }
 }
 
