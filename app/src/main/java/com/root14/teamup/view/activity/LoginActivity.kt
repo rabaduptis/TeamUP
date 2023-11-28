@@ -1,16 +1,14 @@
-package com.root14.teamup
+package com.root14.teamup.view.activity
 
+import Navigator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -21,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.root14.teamup.R
+import com.root14.teamup.util.Util
 import com.root14.teamup.databinding.ActivityLoginBinding
 
 
@@ -36,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        enableEdge2Edge()
+
+        Util.applyWindowInsets(binding.root, this)
 
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance()
@@ -68,27 +69,7 @@ class LoginActivity : AppCompatActivity() {
             }
         } else {
             // User is already signed in -> Launch Main Activity
-            nav2MainActivity()
-        }
-    }
-
-    /**
-     * Navigate to MainActivity
-     */
-    private fun nav2MainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-
-    /**
-     * Enable edge-to-edge display.
-     */
-    private fun enableEdge2Edge() {
-        enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+            Navigator<MainActivity>(this).navigateTo(MainActivity::class.java)
         }
     }
 
@@ -133,8 +114,8 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success
                     Log.d("LoginActivity", "Firebase authentication succeeded")
-                    // Launch main activity with user
-                    nav2MainActivity()
+                    // Launch main activity
+                    Navigator<MainActivity>(this).navigateTo(MainActivity::class.java)
                 } else {
                     // Sign in failure
                     Log.w("LoginActivity", "Firebase authentication failed", task.exception)
