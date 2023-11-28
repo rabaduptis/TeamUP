@@ -33,11 +33,6 @@ class MainActivity : AppCompatActivity() {
     private val createTeamViewModel: CreateTeamViewModel by viewModels()
 
     /**
-     * Bottom sheet fragment for creating teams.
-     */
-    private val modelBottomSheet = TeamCreateDialogFragment()
-
-    /**
      * Adapter for the list of teams.
      */
     private lateinit var myAdapter: RecyclerView.Adapter<*>
@@ -74,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set up click listener for the add team button
         binding.floatingActionButtonTeamAdd.setOnClickListener {
-            modelBottomSheet.show(supportFragmentManager, "TeamCreateDialogFragment")
+            TeamCreateDialogFragment().show(supportFragmentManager, "TeamCreateDialogFragment")
         }
 
         // Set up listener for the swipe-to-refresh gesture
