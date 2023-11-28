@@ -1,11 +1,11 @@
 package com.root14.teamup.view.fragment
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -14,8 +14,6 @@ import com.root14.teamup.databinding.FragmentTeamCreateDialogListDialogBinding
 import com.root14.teamup.viewmodel.CreateTeamViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
 
 /**
  *
@@ -48,34 +46,29 @@ class TeamCreateDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.buttonCreateTeam.setOnClickListener {
-
-
-            lifecycleScope.launch {
-                PrefDataStoreManager.getInstance(binding.root.context).getAllData()
-                    .collect { teams ->
-                        if (teams.size < 4) {
-                            if (binding.textViewTeamName.text.isNotEmpty()) {
-                                createTeamViewModel.createTeam(
-                                    binding.textViewTeamName.text.toString(),
-                                    binding.textViewTeamDescription.text.toString()
-                                )
-                            }
-                        } else {
-                            Toast.makeText(
-                                binding.root.context,
-                                "cannot create team more than 4",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            dismiss()
-                        }
-
-                    }
-            }
-
-
+            createTeam()
         }
+    }
 
-
+    private fun createTeam() {
+        lifecycleScope.launch {
+            PrefDataStoreManager.getInstance(binding.root.context).getAllData().collect { teams ->
+                if (teams.size < 4) {
+                    if (binding.textViewTeamName.text.isNotEmpty()) {
+                        createTeamViewModel.createTeam(
+                            binding.textViewTeamName.text.toString(),
+                            binding.textViewTeamDescription.text.toString()
+                        )
+                        dismiss()
+                    }
+                } else {
+                    Toast.makeText(
+                        binding.root.context, "cannot create team more than 4", Toast.LENGTH_SHORT
+                    ).show()
+                    dismiss()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -83,3 +76,4 @@ class TeamCreateDialogFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 }
+
