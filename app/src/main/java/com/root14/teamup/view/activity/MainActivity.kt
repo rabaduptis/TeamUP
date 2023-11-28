@@ -87,29 +87,28 @@ class MainActivity : AppCompatActivity() {
     private fun updateUI(listItems: MutableList<TeamModel>) {
         lifecycleScope.launch {
             // Get all teams from the data store
-            val teams =
-                PrefDataStoreManager.getInstance(this@MainActivity).getAllData().collect { teams ->
-                    // Check if there are any teams
-                    if (teams.isEmpty()) {
-                        // Show the no item message
-                        binding.textViewNoItem.visibility = RecyclerView.VISIBLE
-                    } else {
-                        // Hide the no item message
-                        binding.textViewNoItem.visibility = RecyclerView.GONE
+            PrefDataStoreManager.getInstance(this@MainActivity).getAllData().collect { teams ->
+                // Check if there are any teams
+                if (teams.isEmpty()) {
+                    // Show the no item message
+                    binding.textViewNoItem.visibility = RecyclerView.VISIBLE
+                } else {
+                    // Hide the no item message
+                    binding.textViewNoItem.visibility = RecyclerView.GONE
 
-                        // Clear the list of teams
-                        listItems.clear()
+                    // Clear the list of teams
+                    listItems.clear()
 
-                        // Add each team to the list and notify the adapter
-                        teams.onEachIndexed { index, team ->
-                            listItems.add(TeamModel(team.key.name, team.value.toString()))
-                            myAdapter.notifyItemChanged(index)
-                        }
-
-                        // Set the adapter for the recycler view
-                        binding.recyclerViewTeams.adapter = myAdapter
+                    // Add each team to the list and notify the adapter
+                    teams.onEachIndexed { index, team ->
+                        listItems.add(TeamModel(team.key.name, team.value.toString()))
+                        myAdapter.notifyItemChanged(index)
                     }
+
+                    // Set the adapter for the recycler view
+                    binding.recyclerViewTeams.adapter = myAdapter
                 }
+            }
         }
     }
 }

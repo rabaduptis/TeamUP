@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.root14.teamup.data.PrefDataStoreManager
 import com.root14.teamup.model.PrefDataTags
 import com.root14.teamup.model.state.CreateTeamUiState
@@ -31,7 +33,8 @@ class CreateTeamViewModel @Inject constructor(private val prefDataStoreManager: 
             val teamUid = UUID.randomUUID().toString()
             try {
                 prefDataStoreManager.saveStringData(
-                    "${PrefDataTags.TEAM}+$teamName", "$teamDescription+$teamUid"
+                    "${Firebase.auth.currentUser?.displayName}+$teamName",
+                    "$teamDescription+$teamUid"
                 )
                 // Update the UI state with a success message.
                 _createTeamUiState.postValue(CreateTeamUiState(isError = false))

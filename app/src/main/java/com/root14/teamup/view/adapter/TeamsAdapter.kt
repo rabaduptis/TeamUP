@@ -10,16 +10,21 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.root14.teamup.R
+import com.root14.teamup.databinding.ActivityMainBinding
+import com.root14.teamup.databinding.FragmentTeamCreateDialogListDialogBinding
+import com.root14.teamup.databinding.MainTeamsCustomViewBinding
 import com.root14.teamup.model.TeamModel
 import com.root14.teamup.view.activity.TeamDetailActivity
 
 class TeamsAdapter(private val data: List<TeamModel>) :
     RecyclerView.Adapter<TeamsAdapter.TeamsViewHolder>() {
 
+    private lateinit var binding: MainTeamsCustomViewBinding
+
     inner class TeamsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val teamName: TextView = itemView.findViewById(R.id.textView_team_name)
-        val teamDescription: TextView = itemView.findViewById(R.id.textView_team_description)
-        val teamBaseLayout: ConstraintLayout = itemView.findViewById(R.id.constraitLayout_team_base)
+        val teamName: TextView = binding.textViewTeamName
+        val teamDescription: TextView = binding.textViewTeamDescription
+        val teamBaseLayout: ConstraintLayout = binding.constraitLayoutTeamBase
     }
 
     override fun onCreateViewHolder(
@@ -29,8 +34,8 @@ class TeamsAdapter(private val data: List<TeamModel>) :
         val context = parent.context
         val inflater = LayoutInflater.from(context)
 
-        val teamView0 = inflater.inflate(R.layout.main_teams_custom_view, parent, false)
-        return TeamsViewHolder(teamView0)
+        binding = MainTeamsCustomViewBinding.inflate(inflater)
+        return TeamsViewHolder(binding.root)
     }
 
     override fun getItemCount(): Int {
