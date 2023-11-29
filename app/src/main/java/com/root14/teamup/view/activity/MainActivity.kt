@@ -15,7 +15,9 @@ import com.root14.teamup.view.fragment.TeamCreateDialogFragment
 import com.root14.teamup.viewmodel.CreateTeamViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Main activity of the TeamUp application.
@@ -47,6 +49,9 @@ class MainActivity : AppCompatActivity() {
      */
     private val listItems = mutableListOf<TeamModel>()
 
+    @Inject
+    lateinit var prefDataStoreManager: PrefDataStoreManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -55,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set up the recycler view for the list of teams
         myManager = LinearLayoutManager(this@MainActivity)
-        myAdapter = TeamsAdapter(listItems)
+        myAdapter = TeamsAdapter(listItems, prefDataStoreManager)
         binding.recyclerViewTeams.layoutManager = myManager
         binding.recyclerViewTeams.setHasFixedSize(true)
 
@@ -63,8 +68,11 @@ class MainActivity : AppCompatActivity() {
         updateUI(listItems)
 
         // Observe the UI state of the create team view model
-        createTeamViewModel.createTeamUiState.observe(this) {
-            updateUI(listItems)
+        createTeamViewModel.teamUiState.observe(this) {
+            lifecycleScope.launch {
+                updateUI(listItems)
+            }
+
         }
 
         // Set up click listener for the add team button
@@ -79,6 +87,13 @@ class MainActivity : AppCompatActivity() {
                 binding.swipeRefresh.isRefreshing = false
             }
         }
+
+        myAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                super.onItemRangeRemoved(positionStart, itemCount)
+                //updateUI(listItems)
+            }
+        })
     }
 
     /**

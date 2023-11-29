@@ -7,8 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.root14.teamup.data.PrefDataStoreManager
-import com.root14.teamup.model.PrefDataTags
-import com.root14.teamup.model.state.CreateTeamUiState
+import com.root14.teamup.model.state.TeamUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,8 +18,8 @@ import javax.inject.Inject
 class CreateTeamViewModel @Inject constructor(private val prefDataStoreManager: PrefDataStoreManager) :
     ViewModel() {
 
-    private var _createTeamUiState = MutableLiveData<CreateTeamUiState>()
-    var createTeamUiState: LiveData<CreateTeamUiState> = _createTeamUiState
+    private var _teamUiState = MutableLiveData<TeamUiState>()
+    var teamUiState: LiveData<TeamUiState> = _teamUiState
 
     /**
      * The UI state of the team creation process.
@@ -37,11 +36,11 @@ class CreateTeamViewModel @Inject constructor(private val prefDataStoreManager: 
                     "$teamDescription+$teamUid"
                 )
                 // Update the UI state with a success message.
-                _createTeamUiState.postValue(CreateTeamUiState(isError = false))
+                _teamUiState.postValue(TeamUiState(isError = false))
             } catch (exception: Exception) {
                 // Update the UI state with an error message and the exception.
-                _createTeamUiState.postValue(
-                    CreateTeamUiState(
+                _teamUiState.postValue(
+                    TeamUiState(
                         isError = true, exception = exception
                     )
                 )
