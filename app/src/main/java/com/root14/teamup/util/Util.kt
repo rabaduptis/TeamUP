@@ -33,5 +33,20 @@ class Util {
                 insets
             }
         }
+
+        /**
+         * Adjusts the view hierarchy to consume window insets. This ensures that the view and its
+         * children will not be clipped by system UI elements such as the status bar and navigation bar.
+         *
+         * @param rootView The root view of the view hierarchy.
+         */
+        fun adjustViewForWindowInsets(rootView: View) {
+            // Set a listener on the decor view to apply window insets when they change
+            ViewCompat.setOnApplyWindowInsetsListener(rootView) { _, insets ->
+                // Consume the window insets so that they are not applied to child views
+                ViewCompat.onApplyWindowInsets(rootView, WindowInsetsCompat.CONSUMED)
+            }
+        }
+
     }
 }

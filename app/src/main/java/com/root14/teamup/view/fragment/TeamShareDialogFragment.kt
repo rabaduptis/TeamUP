@@ -66,14 +66,27 @@ class TeamShareDialogFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 
+    /**
+     * Generates a QR code image and displays it in the given ImageView.
+     *
+     * @param imageViewTo The ImageView to display the QR code in.
+     * @param content The content to encode in the QR code.
+     */
     private fun generateQrCode(imageViewTo: ImageView, content: String) {
         try {
+            // Create a BarcodeEncoder instance
             val barcodeEncoder = BarcodeEncoder()
+
+            // Encode the content into a QR code bitmap
             val bitmap = barcodeEncoder.encodeBitmap(content, BarcodeFormat.QR_CODE, 250, 250)
+
+            // Set the QR code bitmap to the ImageView
             imageViewTo.setImageBitmap(bitmap)
         } catch (exception: Exception) {
+            // Print an error message if the QR code generation fails
             println("fail to generate QR")
-            println(exception.stackTrace)
+            exception.printStackTrace()
         }
     }
+
 }
