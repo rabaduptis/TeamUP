@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/team_share_diaglog_ConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingTop="@dimen/list_item_spacing_half"
+    android:paddingBottom="@dimen/list_item_spacing_half"
+    tools:context=".view.fragment.TeamShareDialogFragment"
+    tools:listitem="@layout/fragment_team_share_dialog_list_dialog_item">
+
+    <TextView
+        android:id="@+id/textView_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="You can share your team with:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_content_copy_24"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_team_url"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_team_url" />
+
+    <TextView
+        android:id="@+id/textView_team_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="your url will generated"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_info" />
+
+    <ImageView
+        android:id="@+id/imageView_barcode"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/sharp_apk_document_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_team_url" />
+</androidx.constraintlayout.widget.ConstraintLayout>

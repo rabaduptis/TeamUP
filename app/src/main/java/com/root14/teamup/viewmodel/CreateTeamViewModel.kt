@@ -45,7 +45,6 @@ class CreateTeamViewModel @Inject constructor(private val prefDataStoreManager: 
                     )
                 )
             }
-
         }
     }
 }
