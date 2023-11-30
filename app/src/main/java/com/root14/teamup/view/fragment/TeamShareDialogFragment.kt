@@ -1,21 +1,19 @@
 package com.root14.teamup.view.fragment
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ImageView
 import android.widget.Toast
-import com.root14.teamup.R
-import com.root14.teamup.databinding.FragmentTeamShareDialogListDialogItemBinding
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.root14.teamup.databinding.FragmentTeamShareDialogListDialogBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class TeamShareDialogFragment : BottomSheetDialogFragment() {
 
@@ -29,11 +27,16 @@ class TeamShareDialogFragment : BottomSheetDialogFragment() {
     ): View? {
 
         _binding = FragmentTeamShareDialogListDialogBinding.inflate(inflater, container, false)
+
         return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            generateQrCode(binding.imageViewBarcode, "sample-data")
+        }
 
         /*
         TODO:implement copy 2 clipboard functionality
@@ -61,5 +64,16 @@ class TeamShareDialogFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun generateQrCode(imageViewTo: ImageView, content: String) {
+        try {
+            val barcodeEncoder = BarcodeEncoder()
+            val bitmap = barcodeEncoder.encodeBitmap(content, BarcodeFormat.QR_CODE, 250, 250)
+            imageViewTo.setImageBitmap(bitmap)
+        } catch (exception: Exception) {
+            println("fail to generate QR")
+            println(exception.stackTrace)
+        }
     }
 }
