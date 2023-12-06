@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.root14.teamup.data.PrefDataStoreManager
+import com.root14.teamup.data.repo.TeamRepo
+import com.root14.teamup.model.entity.TeamModel
 import com.root14.teamup.model.state.TeamUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,8 +16,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateTeamViewModel @Inject constructor(private val prefDataStoreManager: PrefDataStoreManager) :
-    ViewModel() {
+class CreateTeamViewModel @Inject constructor(private val teamRepo: TeamRepo) : ViewModel() {
 
     private var _teamUiState = MutableLiveData<TeamUiState>()
     var teamUiState: LiveData<TeamUiState> = _teamUiState
@@ -31,10 +31,15 @@ class CreateTeamViewModel @Inject constructor(private val prefDataStoreManager: 
         viewModelScope.launch(Dispatchers.IO) {
             val teamUid = UUID.randomUUID().toString()
             try {
-                prefDataStoreManager.saveStringData(
-                    "${Firebase.auth.currentUser?.displayName}+$teamName",
-                    "$teamDescription+$teamUid"
+
+                val team = TeamModel(
+                    userName = Firebase.auth.currentUser?.displayName.toString(),
+                    teamDescription = teamDescription,
+                    teamName = teamName,
+                    teamUUID = teamUid
                 )
+
+                teamRepo.insertTeam(team)
                 // Update the UI state with a success message.
                 _teamUiState.postValue(TeamUiState(isError = false))
             } catch (exception: Exception) {

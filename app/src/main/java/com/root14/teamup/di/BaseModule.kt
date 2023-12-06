@@ -1,7 +1,11 @@
 package com.root14.teamup.di
 
 import android.content.Context
+import androidx.room.Room
+import com.root14.teamup.data.Database
 import com.root14.teamup.data.PrefDataStoreManager
+import com.root14.teamup.data.dao.TeamDao
+import com.root14.teamup.data.repo.TeamRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,4 +23,21 @@ object BaseModule {
         return PrefDataStoreManager.getInstance(context)
     }
 
+    @Singleton
+    @Provides
+    fun provideYourDatabase(
+        @ApplicationContext app: Context
+    ) = Room.databaseBuilder(
+        app, Database::class.java, "teamUp_db"
+    ).build()
+
+    @Singleton
+    @Provides
+    fun provideTeamDao(db: Database) = db.teamDao()
+
+    @Singleton
+    @Provides
+    fun provideTeamRepo(teamDao: TeamDao): TeamRepo {
+        return TeamRepo(teamDao)
+    }
 }

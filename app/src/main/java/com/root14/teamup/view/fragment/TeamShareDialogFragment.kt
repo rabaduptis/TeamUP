@@ -58,7 +58,9 @@ class TeamShareDialogFragment : BottomSheetDialogFragment() {
         val clip: ClipData = ClipData.newUri(contentResolver, "URI", copyUri)
         */
 
-        Toast.makeText(view.context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+        binding.imageButtonShare.setOnClickListener{
+            Toast.makeText(view.context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {

@@ -7,15 +7,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.root14.teamup.data.PrefDataStoreManager
+import com.root14.teamup.data.repo.TeamRepo
 import com.root14.teamup.databinding.ActivityMainBinding
-import com.root14.teamup.model.TeamModel
+import com.root14.teamup.model.entity.TeamModel
 import com.root14.teamup.util.Util
 import com.root14.teamup.view.adapter.TeamsAdapter
 import com.root14.teamup.view.fragment.TeamCreateDialogFragment
 import com.root14.teamup.viewmodel.CreateTeamViewModel
+import com.root14.teamup.viewmodel.ManageTeamViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,6 +53,11 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var prefDataStoreManager: PrefDataStoreManager
 
+    @Inject
+    lateinit var teamRepo: TeamRepo
+
+    private val manageTeamViewModel: ManageTeamViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -60,19 +66,24 @@ class MainActivity : AppCompatActivity() {
 
         // Set up the recycler view for the list of teams
         myManager = LinearLayoutManager(this@MainActivity)
-        myAdapter = TeamsAdapter(listItems, prefDataStoreManager)
+        myAdapter = TeamsAdapter(listItems, manageTeamViewModel)
         binding.recyclerViewTeams.layoutManager = myManager
         binding.recyclerViewTeams.setHasFixedSize(true)
 
         // Update the UI with the list of teams
-        updateUI(listItems)
+        updateUI()
 
         // Observe the UI state of the create team view model
         createTeamViewModel.teamUiState.observe(this) {
-            lifecycleScope.launch {
-                updateUI(listItems)
+            if (!it.isError) {
+                updateUI()
             }
+        }
 
+        manageTeamViewModel.deleteTeamUiState.observe(this) {
+            if (!it.isError) {
+                updateUI()
+            }
         }
 
         // Set up click listener for the add team button
@@ -82,41 +93,34 @@ class MainActivity : AppCompatActivity() {
 
         // Set up listener for the swipe-to-refresh gesture
         binding.swipeRefresh.setOnRefreshListener {
-            lifecycleScope.launch(Dispatchers.Main) {
-                updateUI(listItems)
-                binding.swipeRefresh.isRefreshing = false
-            }
+            updateUI()
+            binding.swipeRefresh.isRefreshing = false
         }
-
-        myAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-                super.onItemRangeRemoved(positionStart, itemCount)
-                //updateUI(listItems)
-            }
-        })
     }
 
     /**
      * Updates the UI with the list of teams.
      */
-    private fun updateUI(listItems: MutableList<TeamModel>) {
-        lifecycleScope.launch {
-            // Get all teams from the data store
-            PrefDataStoreManager.getInstance(this@MainActivity).getAllData().collect { teams ->
+    private fun updateUI() {
+        lifecycleScope.launch(Dispatchers.Main) {
+
+            manageTeamViewModel.getAllTeam().observe(this@MainActivity) {
                 // Check if there are any teams
-                if (teams.isEmpty()) {
+                if (it.isNullOrEmpty()) {
+                    // Clear the list of teams
+                    listItems.clear()
                     // Show the no item message
                     binding.textViewNoItem.visibility = RecyclerView.VISIBLE
                 } else {
                     // Hide the no item message
-                    binding.textViewNoItem.visibility = RecyclerView.GONE
+                    binding.textViewNoItem.visibility = RecyclerView.INVISIBLE
 
                     // Clear the list of teams
                     listItems.clear()
 
                     // Add each team to the list and notify the adapter
-                    teams.onEachIndexed { index, team ->
-                        listItems.add(TeamModel(team.key.name, team.value.toString()))
+                    it?.onEachIndexed { index, team ->
+                        listItems.add(team)
                         myAdapter.notifyItemChanged(index)
                     }
 

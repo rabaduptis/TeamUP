@@ -6,31 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.root14.teamup.data.PrefDataStoreManager
 import com.root14.teamup.databinding.MainTeamsCustomViewBinding
-import com.root14.teamup.model.TeamModel
+import com.root14.teamup.model.entity.TeamModel
 import com.root14.teamup.view.activity.TeamDetailActivity
 import com.root14.teamup.view.fragment.TeamShareDialogFragment
+import com.root14.teamup.viewmodel.ManageTeamViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class TeamsAdapter(
-    private var data: MutableList<TeamModel>, private var prefDataStoreManager: PrefDataStoreManager
+    private var data: MutableList<TeamModel>, private val manageTeamViewModel: ManageTeamViewModel
 ) : RecyclerView.Adapter<TeamsAdapter.TeamsViewHolder>() {
 
     private lateinit var binding: MainTeamsCustomViewBinding
 
     inner class TeamsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val teamName: TextView = binding.textViewTeamName
-        val teamDescription: TextView = binding.textViewTeamDescription
-        val teamBaseLayout: ConstraintLayout = binding.constraitLayoutTeamBase
-        val teamShareButton: ImageButton = binding.imgButtonShare
+        val teamName: TextView = binding.teamName
+        val teamDescription: TextView = binding.teamDescription
+        val teamBaseLayout: LinearLayout = binding.linearLayoutBase
+        val teamShareButton: ImageButton = binding.shareButton
     }
 
 
@@ -74,17 +75,11 @@ class TeamsAdapter(
 
     override fun onViewAttachedToWindow(holder: TeamsViewHolder) {
         super.onViewAttachedToWindow(holder)
-        binding.imgButtonDelete.setOnClickListener {
+        binding.deleteButton.setOnClickListener {
             data.removeAt(holder.bindingAdapterPosition)
+            manageTeamViewModel.deleteTeam(holder.teamName.text.toString())
             notifyItemRemoved(holder.bindingAdapterPosition)
             notifyItemRangeRemoved(0, holder.bindingAdapterPosition)
-
-
-            holder.itemView.findViewTreeLifecycleOwner()?.lifecycleScope?.launch(Dispatchers.IO) {
-                //fixme: When this line runs, the recyclerview deletion animation does not work.
-                prefDataStoreManager.deleteData(holder.teamName.text.toString())
-                println("hey douglas look successfully deleted!")
-            }
         }
 
     }

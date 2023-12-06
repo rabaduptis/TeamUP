@@ -3,21 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/accelerator"
-        android:icon="@drawable/baseline_delete_24"
-        android:title="accelerator"
+        android:id="@+id/team"
+        android:icon="@drawable/baseline_account_circle_24"
+        android:title="@string/team_members"
         app:showAsAction="ifRoom" />
 
 
     <item
-        android:id="@+id/rotation"
-        android:icon="@drawable/baseline_share_24"
-        android:title="rotation"
+        android:id="@+id/tasks"
+        android:icon="@drawable/baseline_checklist_24"
+        android:title="@string/tasks"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/dashboard"
-        android:icon="@drawable/sharp_apk_document_24"
-        android:title="dashboard"
-        app:showAsAction="ifRoom" />
 </menu>

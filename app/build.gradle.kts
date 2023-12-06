@@ -112,6 +112,20 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+
+
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+
+    implementation("com.google.code.gson:gson:2.10.1")
 }
 
 kapt {
