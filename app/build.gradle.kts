@@ -12,9 +12,9 @@ android {
         create("release") {
             storeFile =
                 file("C:\\Users\\ilkay\\AndroidStudioProjects\\TeamUP\\app\\teamp-up-signing.jks")
-            storePassword = ""
+            storePassword = "123456a"
             keyAlias = "key0"
-            keyPassword = ""
+            keyPassword = "123456a"
         }
     }
 
