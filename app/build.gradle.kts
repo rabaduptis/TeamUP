@@ -14,7 +14,7 @@ android {
                 file("C:\\Users\\ilkay\\AndroidStudioProjects\\TeamUP\\app\\teamp-up-signing.jks")
             storePassword = "356289741a"
             keyAlias = "key0"
-            keyPassword = "356289741a"
+            keyPassword = ""
         }
     }
 
